@@ -11,3 +11,7 @@ create table concerts (concert_id uuid primary key, manager_id uuid not null, ar
 create table concert_tickets (tier_id uuid primary key, concert_id uuid, type TEXT default 'normal', cost int check (cost between 50 and 10000) default 50, description TEXT, points int check (points between 0 and 1000), foreign key(concert_id) references concerts(concert_id));
 
 create table attendee_tickets (booking_id uuid primary key, user_id uuid, ticket jsonb not null, cost int check (cost >= 50) not null, qrcode bytea not null, foreign key(user_id) references users(id));
+
+create table projects (project_id uuid primary key, concert_id uuid, status boolean default true, details TEXT, created_on timestamp default now(), expires_on timestamp, foreign key(concert_id) references concerts(concert_id));
+
+create table team (teamate_id uuid primary key, project_id uuid, employee_id uuid, status boolean default true, joined_on timestamp default now(), duration int, foreign key(project_id) references projects(project_id), foreign key(employee_id) references employee_profile(employee_id));

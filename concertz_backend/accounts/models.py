@@ -1,3 +1,29 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+import uuid
 
-# Create your models here.
+class User(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    f_name = models.CharField(max_length=100)
+    l_name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=20)
+    city = models.CharField(max_length=100)
+    mobile = models.CharField(max_length=10)
+    role = models.CharField(max_length=20, default='user')
+
+class AttendeeProfile(models.Model):
+    attendee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
+
+class ManagerProfile(models.Model):
+    manager = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    organization = models.CharField(max_length=255)
+    bank_details = models.JSONField()
+    registration_no = models.CharField(max_length=12)
+    license = models.JSONField(null=True, blank=True)
+
+class EmployeeProfile(models.Model):
+    employee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    experiance = models.JSONField()
+    bank_details = models.JSONField()

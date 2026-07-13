@@ -11,6 +11,12 @@ class User(models.Model):
     city = models.CharField(max_length=100)
     mobile = models.CharField(max_length=10)
     role = models.CharField(max_length=20, default='user')
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.f_name
+    
 
 class AttendeeProfile(models.Model):
     attendee = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
